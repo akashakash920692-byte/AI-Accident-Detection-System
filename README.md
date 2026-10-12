@@ -188,3 +188,14 @@ Developed as a Bachelor of Computer Applications project to demonstrate the inte
 ## License
 
 Choose an appropriate open-source license before distributing the project publicly.
+
+## Trained Model
+
+The trained accident classification model is hosted on Hugging Face.
+
+- **Model repository:** [Accident Classifier](https://huggingface.co/Akashuuuu/accident-classifier)
+- **Model file:** `best.pt`
+- **Task:** Binary image classification — accident vs. no accident
+- **Test accuracy:** 98.12% on 1,858 held-out test images
+
+The system is an academic prototype. Predictions should be verified by a human and must not replace professional emergency assessment.

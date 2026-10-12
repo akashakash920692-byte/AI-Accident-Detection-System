@@ -1,0 +1,55 @@
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environment
+venv/
+.env
+
+# Dataset
+dataset/
+training/
+
+# Generated model runs
+runs/
+
+# Python cache files
+*.cache
+
+# macOS
+.DS_Store
+
+# IDE settings
+.vscode/
+
+# Uploaded images
+uploads/*
+!uploads/.gitkeep
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Uploaded and generated images
+uploads/*
+web/static/results/*
+outputs/*
+
+# Keep placeholder files in empty folders
+!uploads/.gitkeep
+!web/static/results/.gitkeep
+!outputs/.gitkeep
+
+# Environment and secrets
+.env
+.DS_Store
+
+
+# Large pretrained model weights
+yolo11n.pt
+yolo11n-cls.pt
+
+# Trained model checkpoints
+*.pt

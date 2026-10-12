@@ -1,0 +1,1263 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>AI Accident Detection Dashboard</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+
+<body>
+
+<div class="dashboard-container">
+
+
+    <!-- =====================================================
+         TOP NAVIGATION
+    ====================================================== -->
+
+    <header class="topbar">
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                🚨
+            </div>
+
+            <div>
+
+                <h1>
+                    AI Accident Detection
+                </h1>
+
+                <p>
+                    Intelligent Road Safety & Emergency Analysis
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="system-status">
+
+            <span class="status-dot"></span>
+
+            SYSTEM ONLINE
+
+        </div>
+
+    </header>
+
+
+
+    <!-- =====================================================
+         HERO
+    ====================================================== -->
+
+    <section class="hero">
+
+        <div class="hero-text">
+
+            <span class="hero-label">
+                AI / ML SPECIALIZATION PROJECT
+            </span>
+
+            <h2>
+                Intelligent Road Accident
+                <span>Detection Dashboard</span>
+            </h2>
+
+            <p>
+                Analyze road images using Digital Image Processing,
+                YOLO object detection, Neural Network classification
+                and NLP-based emergency report generation.
+            </p>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         UPLOAD
+    ====================================================== -->
+
+    <section class="dashboard-card upload-section">
+
+        <div class="section-heading">
+
+            <div>
+
+                <span class="section-tag">
+                    INPUT
+                </span>
+
+                <h2>
+                    📷 Road Scene Analysis
+                </h2>
+
+            </div>
+
+        </div>
+
+
+        <form
+            action="{{ url_for('predict') }}"
+            method="POST"
+            enctype="multipart/form-data"
+            class="upload-form"
+        >
+
+            <label class="file-upload">
+
+                <span class="upload-icon">
+                    📁
+                </span>
+
+                <span>
+                    Choose Road Image
+                </span>
+
+                <input
+                    type="file"
+                    name="image"
+                    accept=".jpg,.jpeg,.png"
+                    required
+                >
+
+            </label>
+
+
+            <button
+                type="submit"
+                class="analyze-button"
+            >
+
+                🔍 Analyze Image
+
+            </button>
+
+        </form>
+
+
+        <p class="supported-formats">
+            Supported formats: JPG • JPEG • PNG
+        </p>
+
+
+        {% if error %}
+
+        <div class="error-box">
+
+            ⚠️ {{ error }}
+
+        </div>
+
+        {% endif %}
+
+    </section>
+
+
+
+    {% if results %}
+
+
+    <!-- =====================================================
+         MAIN RESULT
+    ====================================================== -->
+
+    <section class="result-alert
+        {% if results.predicted_class == 'accident' %}
+            danger
+        {% else %}
+            safe
+        {% endif %}
+    ">
+
+        <div>
+
+            {% if results.predicted_class == 'accident' %}
+
+            🚨
+            <strong>
+                ACCIDENT DETECTED
+            </strong>
+
+            {% else %}
+
+            ✅
+            <strong>
+                NO ACCIDENT DETECTED
+            </strong>
+
+            {% endif %}
+
+        </div>
+
+
+        <span>
+
+            AI analysis completed successfully
+
+        </span>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         KPI CARDS
+    ====================================================== -->
+
+    <section class="kpi-grid">
+
+
+        <!-- PREDICTION -->
+
+        <div class="kpi-card">
+
+            <div class="kpi-icon">
+                🧠
+            </div>
+
+            <div>
+
+                <span>
+                    AI PREDICTION
+                </span>
+
+                <strong>
+
+                    {{ results.predicted_class | upper }}
+
+                </strong>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- CONFIDENCE -->
+
+        <div class="kpi-card">
+
+            <div class="kpi-icon">
+                🎯
+            </div>
+
+            <div>
+
+                <span>
+                    CONFIDENCE
+                </span>
+
+                <strong>
+
+                    {{ "%.2f"|format(results.confidence) }}%
+
+                </strong>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- VEHICLES -->
+
+        <div class="kpi-card">
+
+            <div class="kpi-icon">
+                🚗
+            </div>
+
+            <div>
+
+                <span>
+                    VEHICLES
+                </span>
+
+                <strong>
+
+                    {{ results.total_vehicles }}
+
+                </strong>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- PEOPLE -->
+
+        <div class="kpi-card">
+
+            <div class="kpi-icon">
+                👤
+            </div>
+
+            <div>
+
+                <span>
+                    PEOPLE
+                </span>
+
+                <strong>
+
+                    {{ results.people }}
+
+                </strong>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- SEVERITY -->
+
+        <div class="kpi-card severity-card">
+
+            <div class="kpi-icon">
+                ⚠️
+            </div>
+
+            <div>
+
+                <span>
+                    SEVERITY
+                </span>
+
+                <strong>
+
+                    {{ results.severity }}
+
+                </strong>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         ANALYZED IMAGE
+    ====================================================== -->
+
+    <section class="dashboard-card">
+
+        <div class="section-heading">
+
+            <div>
+
+                <span class="section-tag">
+                    COMPUTER VISION
+                </span>
+
+                <h2>
+                    🖼️ AI Accident Scene Analysis
+                </h2>
+
+            </div>
+
+        </div>
+
+
+        <div class="image-container">
+
+            <img
+                src="{{ image_url }}"
+                alt="AI analyzed road scene"
+                class="analysis-image"
+            >
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         OBJECT ANALYSIS
+    ====================================================== -->
+
+    <section class="dashboard-card">
+
+        <div class="section-heading">
+
+            <div>
+
+                <span class="section-tag">
+                    YOLO OBJECT DETECTION
+                </span>
+
+                <h2>
+                    📊 AI Object Analysis
+                </h2>
+
+            </div>
+
+        </div>
+
+
+        <div class="object-grid">
+
+
+            <div class="object-card">
+
+                <span>🚗</span>
+
+                <h3>
+                    Cars
+                </h3>
+
+                <strong>
+                    {{ results.cars }}
+                </strong>
+
+            </div>
+
+
+            <div class="object-card">
+
+                <span>🏍️</span>
+
+                <h3>
+                    Motorcycles
+                </h3>
+
+                <strong>
+                    {{ results.motorcycles }}
+                </strong>
+
+            </div>
+
+
+            <div class="object-card">
+
+                <span>🚌</span>
+
+                <h3>
+                    Buses
+                </h3>
+
+                <strong>
+                    {{ results.buses }}
+                </strong>
+
+            </div>
+
+
+            <div class="object-card">
+
+                <span>🚚</span>
+
+                <h3>
+                    Trucks
+                </h3>
+
+                <strong>
+                    {{ results.trucks }}
+                </strong>
+
+            </div>
+
+
+            <div class="object-card">
+
+                <span>👤</span>
+
+                <h3>
+                    People
+                </h3>
+
+                <strong>
+                    {{ results.people }}
+                </strong>
+
+            </div>
+
+
+            <div class="object-card total">
+
+                <span>🚘</span>
+
+                <h3>
+                    Total Vehicles
+                </h3>
+
+                <strong>
+                    {{ results.total_vehicles }}
+                </strong>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         MODEL PERFORMANCE
+    ====================================================== -->
+
+    <section class="dashboard-card performance-section">
+
+        <div class="section-heading">
+
+            <div>
+
+                <span class="section-tag">
+                    MODEL EVALUATION
+                </span>
+
+                <h2>
+                    🧠 Neural Network Performance
+                </h2>
+
+            </div>
+
+            <span class="accuracy-badge">
+                98.12% ACCURACY
+            </span>
+
+        </div>
+
+
+        <div class="metrics-grid">
+
+
+            <div class="metric-card">
+
+                <span>
+                    Accuracy
+                </span>
+
+                <strong>
+                    98.12%
+                </strong>
+
+                <small>
+                    Overall correctness
+                </small>
+
+            </div>
+
+
+            <div class="metric-card">
+
+                <span>
+                    Precision
+                </span>
+
+                <strong>
+                    97.96%
+                </strong>
+
+                <small>
+                    Prediction reliability
+                </small>
+
+            </div>
+
+
+            <div class="metric-card">
+
+                <span>
+                    Recall
+                </span>
+
+                <strong>
+                    98.28%
+                </strong>
+
+                <small>
+                    Accident detection rate
+                </small>
+
+            </div>
+
+
+            <div class="metric-card">
+
+                <span>
+                    F1-Score
+                </span>
+
+                <strong>
+                    98.12%
+                </strong>
+
+                <small>
+                    Balanced performance
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <!-- TEST DATA -->
+
+        <div class="evaluation-summary">
+
+            <div>
+
+                <span>
+                    TEST IMAGES
+                </span>
+
+                <strong>
+                    1,858
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <span>
+                    CORRECT
+                </span>
+
+                <strong>
+                    1,823
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <span>
+                    FALSE ALARMS
+                </span>
+
+                <strong>
+                    19
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <span>
+                    MISSED ACCIDENTS
+                </span>
+
+                <strong>
+                    16
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <!-- CONFUSION MATRIX -->
+
+        <div class="confusion-matrix">
+
+            <h3>
+                📈 Confusion Matrix
+            </h3>
+
+            <img
+                src="{{ url_for('model_confusion_matrix') }}"
+                alt="Accident classification confusion matrix"
+            >
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         AI PIPELINE
+    ====================================================== -->
+
+    <section class="dashboard-card">
+
+        <div class="section-heading">
+
+            <div>
+
+                <span class="section-tag">
+                    SYSTEM ARCHITECTURE
+                </span>
+
+                <h2>
+                    ⚙️ AI Processing Pipeline
+                </h2>
+
+            </div>
+
+        </div>
+
+
+        <div class="pipeline">
+
+
+            <div class="pipeline-step">
+
+                <span>
+                    🔬
+                </span>
+
+                <strong>
+                    DIP
+                </strong>
+
+                <small>
+                    Image Processing
+                </small>
+
+            </div>
+
+
+            <div class="pipeline-arrow">
+                →
+            </div>
+
+
+            <div class="pipeline-step">
+
+                <span>
+                    🎯
+                </span>
+
+                <strong>
+                    YOLO
+                </strong>
+
+                <small>
+                    Object Detection
+                </small>
+
+            </div>
+
+
+            <div class="pipeline-arrow">
+                →
+            </div>
+
+
+            <div class="pipeline-step">
+
+                <span>
+                    🧠
+                </span>
+
+                <strong>
+                    ML / NN
+                </strong>
+
+                <small>
+                    Accident Classification
+                </small>
+
+            </div>
+
+
+            <div class="pipeline-arrow">
+                →
+            </div>
+
+
+            <div class="pipeline-step">
+
+                <span>
+                    📝
+                </span>
+
+                <strong>
+                    NLP
+                </strong>
+
+                <small>
+                    Emergency Report
+                </small>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         NLP EMERGENCY REPORT
+    ====================================================== -->
+
+    <section class="dashboard-card report-section">
+
+        <div class="section-heading">
+
+            <div>
+
+                <span class="section-tag">
+                    NATURAL LANGUAGE PROCESSING
+                </span>
+
+                <h2>
+                    📝 AI Emergency Incident Report
+                </h2>
+
+            </div>
+
+            <span class="ai-badge">
+                AI GENERATED
+            </span>
+
+        </div>
+
+
+<div class="report-content" id="emergencyReport">
+    {{ results.report | safe }}
+</div>
+
+<div class="report-actions">
+    <button type="button" id="downloadReportBtn" class="download-report-btn">
+        📥 Download Emergency Report
+    </button>
+</div>
+
+<button type="button" id="exportPdfBtn" class="download-report-btn">
+    📄 Export Report as PDF
+</button>
+
+
+<script>
+document.getElementById("downloadReportBtn").addEventListener("click", function () {
+
+    const reportElement = document.getElementById("emergencyReport");
+    const reportText = reportElement.innerText.trim();
+
+    if (!reportText) {
+        alert("No emergency report is available to download.");
+        return;
+    }
+
+    const blob = new Blob([reportText], {
+        type: "text/plain;charset=utf-8"
+    });
+
+document.getElementById("exportPdfBtn").addEventListener("click", function () {
+    const reportElement = document.getElementById("emergencyReport");
+
+    if (!reportElement || !reportElement.innerText.trim()) {
+        alert("Please analyze an image before exporting the report.");
+        return;
+    }
+
+    const reportText = reportElement.innerText.trim();
+    const incidentStatus = reportText.match(
+        /(?:ACCIDENT|NO ACCIDENT)(?:\s+DETECTED)?/i
+    );
+    const severityMatch = reportText.match(
+        /(?:severity|severity level)\s*[:\-]\s*(low|medium|high|critical|none)/i
+    );
+
+    const status = incidentStatus
+        ? incidentStatus[0].toUpperCase()
+        : "SEE INCIDENT SUMMARY";
+
+    const severity = severityMatch
+        ? severityMatch[1].toUpperCase()
+        : "Refer to report";
+
+    const reportId = "AI-" + Date.now().toString().slice(-8);
+    const generatedAt = new Date().toLocaleString();
+
+    const printWindow = window.open("", "_blank");
+
+    if (!printWindow) {
+        alert("Please allow pop-ups for this dashboard to export the PDF.");
+        return;
+    }
+
+    printWindow.document.write(`
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <title>AI Emergency Incident Report</title>
+
+            <style>
+                * {
+                    box-sizing: border-box;
+                }
+
+                body {
+                    margin: 0;
+                    padding: 32px;
+                    font-family: Arial, Helvetica, sans-serif;
+                    color: #1e293b;
+                    background: #ffffff;
+                    line-height: 1.55;
+                }
+
+                .header {
+                    padding-bottom: 20px;
+                    border-bottom: 3px solid #2563eb;
+                }
+
+                .eyebrow {
+                    color: #2563eb;
+                    font-size: 11px;
+                    font-weight: bold;
+                    letter-spacing: 2px;
+                    text-transform: uppercase;
+                }
+
+                h1 {
+                    margin: 8px 0;
+                    font-size: 27px;
+                    color: #0f172a;
+                }
+
+                .subtitle {
+                    margin: 0;
+                    color: #64748b;
+                    font-size: 13px;
+                }
+
+                .metadata {
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    gap: 12px;
+                    margin: 22px 0;
+                }
+
+                .meta-card {
+                    padding: 12px;
+                    border: 1px solid #e2e8f0;
+                    border-radius: 8px;
+                }
+
+                .label {
+                    display: block;
+                    color: #64748b;
+                    font-size: 10px;
+                    font-weight: bold;
+                    text-transform: uppercase;
+                }
+
+                .value {
+                    display: block;
+                    margin-top: 5px;
+                    font-size: 14px;
+                    font-weight: bold;
+                    overflow-wrap: anywhere;
+                }
+
+                .status {
+                    color: #b91c1c;
+                }
+
+                .section {
+                    margin-top: 24px;
+                    page-break-inside: avoid;
+                }
+
+                h2 {
+                    padding-bottom: 8px;
+                    border-bottom: 1px solid #cbd5e1;
+                    font-size: 16px;
+                    color: #1d4ed8;
+                }
+
+                .report-body {
+                    white-space: pre-wrap;
+                    overflow-wrap: anywhere;
+                    font-size: 12px;
+                }
+
+                .notice {
+                    margin-top: 26px;
+                    padding: 12px;
+                    border-left: 4px solid #f59e0b;
+                    background: #fffbeb;
+                    font-size: 11px;
+                }
+
+                .footer {
+                    margin-top: 28px;
+                    padding-top: 12px;
+                    border-top: 1px solid #e2e8f0;
+                    color: #64748b;
+                    font-size: 10px;
+                }
+
+                @page {
+                    size: A4;
+                    margin: 14mm;
+                }
+
+                @media print {
+                    body {
+                        padding: 0;
+                    }
+                }
+            </style>
+        </head>
+
+        <body>
+            <header class="header">
+                <div class="eyebrow">AI Accident Detection System</div>
+                <h1>Emergency Incident Report</h1>
+                <p class="subtitle">
+                    Automated road-scene analysis generated by an AI prototype
+                </p>
+            </header>
+
+            <section class="metadata">
+                <div class="meta-card">
+                    <span class="label">Report ID</span>
+                    <span class="value" id="reportId"></span>
+                </div>
+
+                <div class="meta-card">
+                    <span class="label">Analysis Date &amp; Time</span>
+                    <span class="value" id="reportDate"></span>
+                </div>
+
+                <div class="meta-card">
+                    <span class="label">Incident Classification</span>
+                    <span class="value status" id="reportStatus"></span>
+                </div>
+
+                <div class="meta-card">
+                    <span class="label">Estimated Severity</span>
+                    <span class="value" id="reportSeverity"></span>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2>AI-Generated Incident Summary</h2>
+                <div class="report-body" id="reportBody"></div>
+            </section>
+
+            <div class="notice">
+                <strong>Important:</strong> This report is automatically
+                generated from image analysis. Classification, object counts,
+                and severity estimates may be incorrect. They do not confirm
+                injuries, establish the exact incident location, or notify
+                emergency services. Verify information before taking action.
+            </div>
+
+            <footer class="footer">
+                Generated by the AI Accident Detection &amp; Emergency
+                Report Generation System.
+                This document is an automated analysis report, not an
+                official emergency-services record.
+            </footer>
+        </body>
+        </html>
+    `);
+
+    printWindow.document.close();
+
+    printWindow.document.getElementById("reportId").textContent = reportId;
+    printWindow.document.getElementById("reportDate").textContent = generatedAt;
+    printWindow.document.getElementById("reportStatus").textContent = status;
+    printWindow.document.getElementById("reportSeverity").textContent = severity;
+    printWindow.document.getElementById("reportBody").textContent = reportText;
+
+    printWindow.onload = function () {
+        printWindow.focus();
+        printWindow.print();
+    };
+});
+
+
+document.getElementById("exportPdfBtn").addEventListener("click", function () {
+    const reportElement = document.getElementById("emergencyReport");
+
+    if (!reportElement || !reportElement.innerText.trim()) {
+        alert("Please analyze an image before exporting a report.");
+        return;
+    }
+
+    const printWindow = window.open("", "_blank");
+
+    if (!printWindow) {
+        alert("Please allow pop-ups for this dashboard to export the PDF.");
+        return;
+    }
+
+    printWindow.document.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>AI Emergency Incident Report</title>
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                    color: #222;
+                    padding: 32px;
+                    line-height: 1.6;
+                }
+                h1 {
+                    color: #0756c9;
+                    border-bottom: 2px solid #0756c9;
+                    padding-bottom: 12px;
+                }
+                pre {
+                    white-space: pre-wrap;
+                    overflow-wrap: break-word;
+                    font: inherit;
+                }
+                @page {
+                    margin: 18mm;
+                }
+            </style>
+        </head>
+        <body>
+            <h1>AI Emergency Incident Report</h1>
+            <pre></pre>
+        </body>
+        </html>
+    `);
+
+    printWindow.document.querySelector("pre").textContent =
+        reportElement.innerText;
+
+    printWindow.document.close();
+
+    printWindow.onload = function () {
+        printWindow.focus();
+        printWindow.print();
+    };
+});
+
+
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+
+    link.href = url;
+    link.download = "emergency_report.txt";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+    URL.revokeObjectURL(url);
+});
+</script>
+```
+
+    </section>
+
+
+    {% endif %}
+
+
+
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
+
+    <footer>
+
+        <strong>
+            AI Accident Detection & Emergency Report Generation System
+        </strong>
+
+        <span>
+            BCA • AI/ML Specialization Project
+        </span>
+
+        <span>
+            DIP • YOLO • Neural Networks • NLP
+        </span>
+
+    </footer>
+
+
+</div>
+
+<!-- MODEL EVALUATION SECTION -->
+<section class="evaluation-section" id="model-evaluation">
+    <div class="evaluation-header">
+        <h2>Model Evaluation</h2>
+        <p>Performance measured on 1,858 held-out test images</p>
+    </div>
+
+    <div class="evaluation-cards">
+        <div class="evaluation-card">
+            <span class="evaluation-label">Test Accuracy</span>
+            <h3>{{ "%.2f"|format(model_accuracy) }}%</h3>
+            <p>Overall correct predictions</p>
+        </div>
+
+        <div class="evaluation-card">
+            <span class="evaluation-label">Accident Precision</span>
+            <h3>{{ "%.2f"|format(accident_precision * 100) }}%</h3>
+            <p>Precision for accident class</p>
+        </div>
+
+        <div class="evaluation-card">
+            <span class="evaluation-label">Accident Recall</span>
+            <h3>{{ "%.2f"|format(accident_recall * 100) }}%</h3>
+            <p>Accidents correctly identified</p>
+        </div>
+
+        <div class="evaluation-card">
+            <span class="evaluation-label">Accident F1-score</span>
+            <h3>{{ "%.2f"|format(accident_f1 * 100) }}%</h3>
+            <p>Balance of precision and recall</p>
+        </div>
+    </div>
+
+    <div class="evaluation-details">
+        <div class="evaluation-panel">
+            <h3>Confusion Matrix</h3>
+            <img
+                src="{{ confusion_matrix_url }}"
+                alt="Accident classifier confusion matrix"
+                class="confusion-matrix-image"
+            >
+        </div>
+
+        <div class="evaluation-panel report-panel">
+            <h3>Evaluation Report</h3>
+            <p>
+                Review the classification report, including precision,
+                recall, F1-score, and confusion matrix counts.
+            </p>
+            <a
+                href="{{ evaluation_report_url }}"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="evaluation-report-link"
+            >
+                View Evaluation Report
+            </a>
+        </div>
+    </div>
+</section>
+
+</body>
+
+</html>

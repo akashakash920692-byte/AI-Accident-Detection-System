@@ -1,0 +1,1197 @@
+/* ============================================================
+   AI ACCIDENT DETECTION DASHBOARD
+============================================================ */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+
+body {
+
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    background:
+        radial-gradient(
+            circle at top,
+            #14213d 0%,
+            #080d19 45%,
+            #050912 100%
+        );
+
+    color: #e8eef8;
+
+    min-height: 100vh;
+
+}
+
+
+/* ============================================================
+   CONTAINER
+============================================================ */
+
+.dashboard-container {
+
+    width: min(1400px, 94%);
+
+    margin: auto;
+
+    padding: 25px 0 50px;
+
+}
+
+
+/* ============================================================
+   TOP BAR
+============================================================ */
+
+.topbar {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding: 20px 25px;
+
+    border-bottom:
+        1px solid #1d2a40;
+
+    margin-bottom: 45px;
+
+}
+
+
+.brand {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+}
+
+
+.brand-icon {
+
+    font-size: 38px;
+
+}
+
+
+.brand h1 {
+
+    font-size: 26px;
+
+    margin-bottom: 4px;
+
+}
+
+
+.brand p {
+
+    color: #8291a8;
+
+    font-size: 14px;
+
+}
+
+
+.system-status {
+
+    border:
+        1px solid #0c6957;
+
+    background:
+        rgba(0, 255, 190, 0.07);
+
+    color: #35e7b3;
+
+    padding: 10px 18px;
+
+    border-radius: 30px;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+}
+
+
+.status-dot {
+
+    display: inline-block;
+
+    width: 9px;
+
+    height: 9px;
+
+    background: #20e698;
+
+    border-radius: 50%;
+
+    margin-right: 7px;
+
+    box-shadow:
+        0 0 12px #20e698;
+
+}
+
+
+/* ============================================================
+   HERO
+============================================================ */
+
+.hero {
+
+    padding: 25px 5px 40px;
+
+}
+
+
+.hero-label {
+
+    display: inline-block;
+
+    color: #4c9cff;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    letter-spacing: 2px;
+
+    margin-bottom: 15px;
+
+}
+
+
+.hero h2 {
+
+    font-size: clamp(32px, 5vw, 58px);
+
+    line-height: 1.05;
+
+    max-width: 850px;
+
+}
+
+
+.hero h2 span {
+
+    color: #4c9cff;
+
+}
+
+
+.hero p {
+
+    max-width: 780px;
+
+    color: #8998ae;
+
+    font-size: 17px;
+
+    line-height: 1.7;
+
+    margin-top: 20px;
+
+}
+
+
+/* ============================================================
+   CARDS
+============================================================ */
+
+.dashboard-card {
+
+    background:
+        rgba(15, 25, 42, 0.9);
+
+    border:
+        1px solid #1e2d45;
+
+    border-radius: 20px;
+
+    padding: 28px;
+
+    margin-bottom: 25px;
+
+    box-shadow:
+        0 15px 50px rgba(0,0,0,0.2);
+
+}
+
+
+.section-heading {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 20px;
+
+    margin-bottom: 25px;
+
+}
+
+
+.section-tag {
+
+    color: #4c9cff;
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+    letter-spacing: 1.5px;
+
+}
+
+
+.section-heading h2 {
+
+    margin-top: 7px;
+
+    font-size: 24px;
+
+}
+
+
+/* ============================================================
+   UPLOAD
+============================================================ */
+
+.upload-form {
+
+    display: flex;
+
+    gap: 15px;
+
+    flex-wrap: wrap;
+
+}
+
+
+.file-upload {
+
+    flex: 1;
+
+    min-width: 250px;
+
+    border:
+        1px dashed #3a4c68;
+
+    border-radius: 12px;
+
+    padding: 18px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    cursor: pointer;
+
+    color: #b7c4d8;
+
+}
+
+
+.file-upload input {
+
+    display: none;
+
+}
+
+
+.upload-icon {
+
+    font-size: 25px;
+
+}
+
+
+.analyze-button {
+
+    border: none;
+
+    border-radius: 12px;
+
+    padding: 0 30px;
+
+    min-height: 58px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #2877ff,
+            #1554c7
+        );
+
+    color: white;
+
+    font-weight: 700;
+
+    font-size: 15px;
+
+    cursor: pointer;
+
+    transition: 0.25s;
+
+}
+
+
+.analyze-button:hover {
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 10px 30px rgba(40,119,255,0.3);
+
+}
+
+
+.supported-formats {
+
+    color: #687991;
+
+    font-size: 13px;
+
+    margin-top: 12px;
+
+}
+
+
+/* ============================================================
+   ERROR
+============================================================ */
+
+.error-box {
+
+    background: #32171d;
+
+    border: 1px solid #8f303b;
+
+    color: #ff7b86;
+
+    padding: 15px;
+
+    border-radius: 10px;
+
+    margin-top: 20px;
+
+}
+
+
+/* ============================================================
+   RESULT ALERT
+============================================================ */
+
+.result-alert {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding: 22px 25px;
+
+    border-radius: 16px;
+
+    margin-bottom: 25px;
+
+    font-size: 18px;
+
+}
+
+
+.result-alert.danger {
+
+    background: #29131f;
+
+    border: 1px solid #8c2d3c;
+
+    color: #ff6e78;
+
+}
+
+
+.result-alert.safe {
+
+    background: #10271f;
+
+    border: 1px solid #1d7658;
+
+    color: #38dfaa;
+
+}
+
+
+.result-alert span {
+
+    font-size: 13px;
+
+    color: #9ca9ba;
+
+}
+
+
+/* ============================================================
+   KPI
+============================================================ */
+
+.kpi-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(5, 1fr);
+
+    gap: 16px;
+
+    margin-bottom: 25px;
+
+}
+
+
+.kpi-card {
+
+    background: #0d1728;
+
+    border: 1px solid #1e2d45;
+
+    border-radius: 16px;
+
+    padding: 22px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+}
+
+
+.kpi-icon {
+
+    font-size: 30px;
+
+}
+
+
+.kpi-card span {
+
+    display: block;
+
+    color: #728198;
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    letter-spacing: 1px;
+
+    margin-bottom: 6px;
+
+}
+
+
+.kpi-card strong {
+
+    font-size: 20px;
+
+}
+
+
+.severity-card strong {
+
+    color: #ffb454;
+
+}
+
+
+/* ============================================================
+   IMAGE
+============================================================ */
+
+.image-container {
+
+    width: 100%;
+
+    display: flex;
+
+    justify-content: center;
+
+    background: #050a13;
+
+    border-radius: 15px;
+
+    overflow: hidden;
+
+    border: 1px solid #1e2d45;
+
+}
+
+
+.analysis-image {
+
+    display: block;
+
+    width: 100%;
+
+    max-width: 1150px;
+
+    height: auto;
+
+    object-fit: contain;
+
+}
+
+
+/* ============================================================
+   OBJECT GRID
+============================================================ */
+
+.object-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(6, 1fr);
+
+    gap: 15px;
+
+}
+
+
+.object-card {
+
+    background: #0b1424;
+
+    border: 1px solid #1c2b42;
+
+    border-radius: 15px;
+
+    padding: 22px;
+
+}
+
+
+.object-card span {
+
+    font-size: 25px;
+
+}
+
+
+.object-card h3 {
+
+    font-size: 14px;
+
+    color: #8d9bb0;
+
+    margin: 12px 0 7px;
+
+}
+
+
+.object-card strong {
+
+    font-size: 27px;
+
+}
+
+
+.object-card.total {
+
+    border-color: #245aa7;
+
+}
+
+
+/* ============================================================
+   PERFORMANCE
+============================================================ */
+
+.accuracy-badge {
+
+    background:
+        rgba(49, 151, 255, 0.12);
+
+    color: #5fa9ff;
+
+    border:
+        1px solid #245a9d;
+
+    padding: 9px 15px;
+
+    border-radius: 25px;
+
+    font-size: 12px;
+
+    font-weight: 800;
+
+}
+
+
+.metrics-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 15px;
+
+}
+
+
+.metric-card {
+
+    background: #0b1424;
+
+    border: 1px solid #1d2d45;
+
+    border-radius: 15px;
+
+    padding: 22px;
+
+}
+
+
+.metric-card span {
+
+    display: block;
+
+    color: #8a98ac;
+
+    font-size: 14px;
+
+}
+
+
+.metric-card strong {
+
+    display: block;
+
+    font-size: 34px;
+
+    margin: 10px 0;
+
+    color: #55a5ff;
+
+}
+
+
+.metric-card small {
+
+    color: #627187;
+
+}
+
+
+.evaluation-summary {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    margin-top: 20px;
+
+    background: #09111e;
+
+    border-radius: 15px;
+
+    padding: 20px;
+
+}
+
+
+.evaluation-summary div {
+
+    text-align: center;
+
+    border-right:
+        1px solid #1d2a3e;
+
+}
+
+
+.evaluation-summary div:last-child {
+
+    border-right: none;
+
+}
+
+
+.evaluation-summary span {
+
+    display: block;
+
+    color: #728096;
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+}
+
+
+.evaluation-summary strong {
+
+    display: block;
+
+    margin-top: 8px;
+
+    font-size: 23px;
+
+}
+
+
+/* ============================================================
+   CONFUSION MATRIX
+============================================================ */
+
+.confusion-matrix {
+
+    margin-top: 30px;
+
+    text-align: center;
+
+}
+
+
+.confusion-matrix h3 {
+
+    margin-bottom: 20px;
+
+}
+
+
+.confusion-matrix img {
+
+    width: 100%;
+
+    max-width: 750px;
+
+    border-radius: 15px;
+
+    background: white;
+
+}
+
+
+/* ============================================================
+   PIPELINE
+============================================================ */
+
+.pipeline {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 20px;
+
+    flex-wrap: wrap;
+
+}
+
+
+.pipeline-step {
+
+    width: 190px;
+
+    min-height: 145px;
+
+    background: #0a1424;
+
+    border: 1px solid #1f3048;
+
+    border-radius: 16px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    align-items: center;
+
+    text-align: center;
+
+    gap: 7px;
+
+}
+
+
+.pipeline-step span {
+
+    font-size: 30px;
+
+}
+
+
+.pipeline-step strong {
+
+    font-size: 17px;
+
+}
+
+
+.pipeline-step small {
+
+    color: #728096;
+
+}
+
+
+.pipeline-arrow {
+
+    color: #3d91ff;
+
+    font-size: 30px;
+
+    font-weight: bold;
+
+}
+
+
+/* ============================================================
+   REPORT
+============================================================ */
+
+.ai-badge {
+
+    color: #6baeff;
+
+    border: 1px solid #245ba1;
+
+    padding: 8px 14px;
+
+    border-radius: 20px;
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+}
+
+
+.report-content {
+
+    background: #080f1c;
+
+    border:
+        1px solid #1c2a40;
+
+    border-radius: 15px;
+
+    padding: 25px;
+
+    color: #c2cddd;
+
+    line-height: 1.8;
+
+    white-space: pre-line;
+
+}
+
+
+/* ============================================================
+   FOOTER
+============================================================ */
+
+footer {
+
+    text-align: center;
+
+    padding: 35px 10px;
+
+    color: #59677d;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 8px;
+
+    font-size: 13px;
+
+}
+
+
+/* ============================================================
+   RESPONSIVE
+============================================================ */
+
+@media (max-width: 1100px) {
+
+    .kpi-grid {
+
+        grid-template-columns:
+            repeat(3, 1fr);
+
+    }
+
+    .object-grid {
+
+        grid-template-columns:
+            repeat(3, 1fr);
+
+    }
+
+}
+
+
+@media (max-width: 750px) {
+
+    .topbar {
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 15px;
+
+    }
+
+    .kpi-grid,
+    .metrics-grid,
+    .evaluation-summary {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+
+    }
+
+    .object-grid {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+
+    }
+
+    .pipeline-arrow {
+
+        transform: rotate(90deg);
+
+    }
+
+}
+
+
+@media (max-width: 520px) {
+
+    .dashboard-container {
+
+        width: 92%;
+
+    }
+
+    .dashboard-card {
+
+        padding: 18px;
+
+    }
+
+    .kpi-grid,
+    .object-grid,
+    .metrics-grid,
+    .evaluation-summary {
+
+        grid-template-columns: 1fr;
+
+    }
+
+    .evaluation-summary div {
+
+        border-right: none;
+
+        border-bottom:
+            1px solid #1d2a3e;
+
+        padding: 12px;
+
+    }
+
+    .evaluation-summary div:last-child {
+
+        border-bottom: none;
+
+    }
+
+    .hero h2 {
+
+        font-size: 35px;
+
+    }
+
+}
+
+/* MODEL EVALUATION SECTION */
+.evaluation-section {
+    margin: 32px 0;
+    padding: 28px;
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    border-radius: 20px;
+    background: rgba(15, 23, 42, 0.75);
+    color: #f8fafc;
+}
+
+.evaluation-header {
+    margin-bottom: 24px;
+}
+
+.evaluation-header h2 {
+    margin: 0 0 8px;
+}
+
+.evaluation-header p,
+.evaluation-card p,
+.report-panel p {
+    color: #94a3b8;
+    line-height: 1.6;
+}
+
+.evaluation-cards {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.evaluation-card,
+.evaluation-panel {
+    padding: 20px;
+    border: 1px solid rgba(148, 163, 184, 0.18);
+    border-radius: 14px;
+    background: rgba(30, 41, 59, 0.8);
+}
+
+.evaluation-label {
+    color: #94a3b8;
+    font-size: 0.9rem;
+}
+
+.evaluation-card h3 {
+    margin: 12px 0;
+    color: #38bdf8;
+    font-size: 1.8rem;
+}
+
+.evaluation-card p {
+    margin-bottom: 0;
+    font-size: 0.85rem;
+}
+
+.evaluation-details {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.evaluation-panel h3 {
+    margin-top: 0;
+}
+
+.confusion-matrix-image {
+    display: block;
+    width: 100%;
+    max-width: 560px;
+    height: auto;
+    margin: 0 auto;
+    border-radius: 8px;
+    background: #fff;
+}
+
+.evaluation-report-link {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 12px 18px;
+    border-radius: 9px;
+    background: #0284c7;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.evaluation-report-link:hover {
+    background: #0369a1;
+}
+
+@media (max-width: 900px) {
+    .evaluation-cards {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .evaluation-details {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .evaluation-section {
+        padding: 16px;
+    }
+
+    .evaluation-cards {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Emergency report download button */
+.report-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 18px;
+}
+
+.download-report-btn {
+    background: #087cf0;
+    color: #ffffff;
+    border: 1px solid #2563eb;
+    border-radius: 10px;
+    padding: 12px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.download-report-btn:hover {
+    background: #0756c9;
+    transform: translateY(-2px);
+}
+
+.download-report-btn:focus-visible {
+    outline: 2px solid #60a5fa;
+    outline-offset: 3px;
+}
+
+@media screen and (max-width: 600px) {
+    .report-actions {
+        justify-content: stretch;
+    }
+
+    .download-report-btn {
+        width: 100%;
+    }
+}

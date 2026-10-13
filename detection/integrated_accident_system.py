@@ -2,6 +2,8 @@ import os
 import sys
 import cv2
 import inspect
+import urllib.request
+
 
 # ============================================================
 # PROJECT ROOT
@@ -31,23 +33,38 @@ except ImportError:
     generate_emergency_report = None
 
 
+    
+
+
 # ============================================================
 # MODEL PATHS
 # ============================================================
+def download_model(url, destination):
+    if not os.path.exists(destination):
+        os.makedirs(os.path.dirname(destination), exist_ok=True)
+        print(f"Downloading model to {destination}...")
+        urllib.request.urlretrieve(url, destination)
+        print("Model download complete.")
 
-OBJECT_MODEL_PATH = os.path.join(
-    PROJECT_ROOT,
-    "yolo11n.pt"
+    return destination
+
+
+OBJECT_MODEL_PATH = download_model(
+    "https://huggingface.co/Akashuuuu/accident-classifier/resolve/main/yolo11n.pt",
+    os.path.join(PROJECT_ROOT, "yolo11n.pt")
 )
 
-ACCIDENT_MODEL_PATH = os.path.join(
-    PROJECT_ROOT,
-    "runs",
-    "classify",
-    "models",
-    "accident_classifier",
-    "weights",
-    "best.pt"
+ACCIDENT_MODEL_PATH = download_model(
+    "https://huggingface.co/Akashuuuu/accident-classifier/resolve/main/best.pt",
+    os.path.join(
+        PROJECT_ROOT,
+        "runs",
+        "classify",
+        "models",
+        "accident_classifier",
+        "weights",
+        "best.pt"
+    )
 )
 
 

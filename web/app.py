@@ -58,12 +58,14 @@ OUTPUT_FOLDER = os.path.join(
     "outputs"
 )
 
+
 CONFUSION_MATRIX_FOLDER = os.path.join(
     PROJECT_ROOT,
-    "runs",
-    "classify",
-    "val"
+    "web",
+    "static",
+    "results"
 )
+
 
 
 # ============================================================
